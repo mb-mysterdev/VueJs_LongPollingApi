@@ -2,7 +2,7 @@
   "name": "vite-project",
   "version": "0.0.0",
   "engines": {
-    "node": "14.x"
+    "node": "12.x"
   },
   "scripts": {
     "dev": "vite",
