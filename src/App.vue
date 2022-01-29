@@ -1,33 +1,38 @@
-<script setup>
+<script>
 import {onMounted, onUpdated, reactive, ref} from "vue";
 import axios from "axios";
 
-const apis = reactive([])
-const lastUrl = ref(null);
+export default {
+  setup(){
+    const apis = reactive([])
+    const lastUrl = ref(null);
+    return {apis, lastUrl}
+  },
+  updated() {
+    if(this.apis.length > 0){
+      const self = this;
 
-onUpdated(() => {
-  if(apis.length > 0){
-    setInterval(function(){
-      apis.map(api =>
-      {
-        console.log('hoho')
-        axios.get(api?.url).then(res => {
-          api.status = res.status
-          if(api.status === 200){
-            api.color = 'green'
-          }else {
-            api.color = 'red'
-          }
-        })
-        .catch(res => {
-          api.color = 'red'
-        })
-        return api
-      });
+      setInterval(function(){
+        self.apis.map(api =>
+        {
+          axios.get(api?.url).then(res => {
+            api.status = res.status
+            if(api.status === 200){
+              api.color = 'green'
+            }else {
+              api.color = 'red'
+            }
+          })
+              .catch(res => {
+                api.color = 'red'
+              })
+          return api
+        });
 
-    }, 2000)
+      }, 2000)
+    }
   }
-})
+}
 
 
 </script>
