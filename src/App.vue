@@ -6,7 +6,8 @@ export default {
   setup(){
     const apis = reactive([])
     const lastUrl = ref(null);
-    return {apis, lastUrl}
+    const checkEveryHowManySeconds = ref(2000);
+    return {apis, lastUrl, checkEveryHowManySeconds}
   },
   updated() {
     if(this.apis.length > 0){
@@ -29,7 +30,7 @@ export default {
           return api
         });
 
-      }, 2000)
+      }, self.checkEveryHowManySeconds)
     }
   }
 }
@@ -38,7 +39,9 @@ export default {
 </script>
 
 <template>
- <input type="url" v-model="lastUrl" />
+  <input type="url" v-model="lastUrl" /><br>
+  chaque combien de temps ?<br>
+  <input type="number" v-model="checkEveryHowManySeconds" />
   <button @click="apis.push({url: lastUrl})">Ajouter une api a surveiller</button>
   <div v-for="api in apis" :key="api" :style="'background:' + api.color ">
     {{ api.url }}
